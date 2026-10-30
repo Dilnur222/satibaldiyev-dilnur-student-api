@@ -1,0 +1,43 @@
+name: satibaldiyev-dilnur-student-api
+
+services:
+  database:
+    image: postgres:16
+    container_name: satibaldiyev-dilnur-postgres
+    environment:
+      POSTGRES_DB: studentdb
+      POSTGRES_USER: studentuser
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - student-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U studentuser -d studentdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  student-api:
+    build: .
+    image: satibaldiyev-dilnur-student-api:v1.0-38036
+    container_name: satibaldiyev-dilnur-api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://database:5432/studentdb
+      DB_USERNAME: studentuser
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - student-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  student-network:
+    driver: bridge
