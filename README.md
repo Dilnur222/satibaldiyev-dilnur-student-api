@@ -49,4 +49,4 @@ Create a Pipeline job called `Satibaldiyev_Dilnur_Student_API` and use `Jenkinsf
 
 **Note:** Source publication and commits do not by themselves prove that Gradle, Docker or Jenkins ran successfully on Ubuntu.
 
-Documentation status: Feature branch CRUD documentation.
+Documentation status: Main branch revised by Dilnur Satibaldiyev.
