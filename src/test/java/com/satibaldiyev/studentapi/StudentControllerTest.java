@@ -49,6 +49,6 @@ class StudentControllerTest {
     @Test
     void missingStudentReturnsNotFound() {
         ResponseEntity<String> response = rest.getForEntity(url() + "/999999", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
